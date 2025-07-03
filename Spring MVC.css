@@ -1,0 +1,282 @@
+Tổng quan về web, mô hình ứng dụng web
+
+🧠1. Web là gì?
+Web (World Wide Web) là hệ thống các tài liệu siêu văn bản (HTML) được liên kết với nhau và truy cập thông qua trình duyệt (browser) như Chrome, Firefox...
+
+Khi bạn vào một trang web, trình duyệt gửi yêu cầu (request) đến máy chủ (server), nhận về trang web (response) để hiển thị.
+
+🧠2. Cấu trúc cơ bản một website
+📘Frontend (giao diện người dùng – chạy ở trình duyệt):
+
+HTML (nội dung)
+
+CSS (giao diện)
+
+JavaScript (tương tác, xử lý logic trên trình duyệt)
+
+📘Backend (xử lý logic, kết nối CSDL – chạy ở server):
+
+Các ngôn ngữ như: Java, PHP, Python, Node.js...
+
+Kết nối với CSDL như: MySQL, PostgreSQL, MongoDB...
+
+Database (nơi lưu trữ dữ liệu):
+
+Dữ liệu người dùng, sản phẩm, bài viết...
+
+🧠3. Mô hình ứng dụng Web 
+Mô hình ứng dụng web trong java
+Ứng dụng web trong Java thường được xây dựng theo mô hình MVC (Model-View-Controller) và có thể triển khai bằng các công nghệ như JSP, Servlet, Spring, Hibernate.
+
+✅ I. MÔ HÌNH MVC LÀ GÌ? 
+
+🧩 MVC viết tắt là:
+    M - Model: Quản lý dữ liệu, xử lý logic nghiệp vụ (có thể sử dụng JavaBeans, Hibernate).
+    V - View: Hiển thị dữ liệu cho người dùng (thường dùng JSP, HTML, CSS, JavaScript).
+    C - Controller: Nhận yêu cầu từ người dùng, xử lý và điều hướng (thường dùng Servlet, Spring Controller).
+
+✅ II. Các công nghệ chính trong ứng dụng web Java
+JSP (JavaServer Pages): Dùng để tạo trang web động, có thể nhúng Java code vào HTML.
+Servlet: Xử lý yêu cầu từ client, điều phối dữ liệu giữa Model và View.
+Spring Framework: Một framework mạnh mẽ giúp xây dựng ứng dụng web linh hoạt và dễ bảo trì.
+Hibernate: Thư viện ORM (Object Relational Mapping) giúp quản lý cơ sở dữ liệu dễ dàng hơn.
+
+🔄 Luồng hoạt động:
+Người dùng tương tác với View (giao diện).
+
+View gửi yêu cầu tới Controller.
+
+Controller gọi Model để lấy hoặc ghi dữ liệu.
+
+Model truy vấn CSDL, trả dữ liệu lại cho Controller.
+
+Controller gửi dữ liệu tới View để hiển thị.
+
+    [User] → View → Controller → Model → Database
+                     ↓            ↑
+                   View  ←  Data  ←
+
+
+    🎯 Ví dụ dễ hiểu (giả sử làm ứng dụng web quản lý sinh viên):
+    ình huống: Người dùng muốn xem danh sách sinh viên.
+
+    Thành phần	            Vai trò	                Ví dụ trong Java
+    View	            Giao diện	              student_list.jsp
+    Controller	    Nhận request, gọi xử lý	     StudentController.java
+    Model	        Dữ liệu, kết nối DB	        Student.java, StudentDAO.java
+
+    ➡ Luồng:
+
+    Người dùng vào /students → StudentController nhận request
+
+    Controller gọi StudentDAO.getAllStudents()
+
+    DAO truy vấn CSDL → trả list sinh viên
+
+    Controller đẩy dữ liệu vào student_list.jsp để hiển thị 
+
+
+
+Mô hình phổ biến nhất: Kiến trúc 3 tầng là nền tảng của hầu hết các ứng dụng lớn:
+
+Presentation Layer: Giao diện.
+
+Application Layer: Xử lý logic.
+
+Data Layer: Cơ sở dữ liệu.
+
+Các xu hướng hiện đại đáng chú ý:
+
+Single-Page Applications (SPAs): Tải 1 lần, cập nhật động, trải nghiệm mượt mà (VD: Gmail).
+
+Microservices: Chia ứng dụng lớn thành các dịch vụ nhỏ độc lập, dễ mở rộng và quản lý.
+
+
+✅✅✅✅✅✅✅✅✅✅✅✅✅✅✅✅✅✅✅✅✅✅✅✅✅✅✅✅✅✅✅✅✅✅✅✅✅✅
+
+            JSP và Servlet
+
+✅✅✅✅✅✅✅✅✅✅✅✅✅✅✅✅✅✅✅✅✅✅✅✅✅✅✅✅✅✅✅✅✅✅✅✅✅✅
+ 
+    JSP  (JavaServer Pages) và Servlet là hai công nghệ quan trọng trong lập trình web với Java, giúp xây dựng các ứng 
+        dụng web động một cách hiệu quả.
+
+    Servlet: Là một chương trình Java chạy trên máy chủ web, xử lý yêu cầu từ client (trình duyệt) và tạo phản hồi động
+    JSP: Là một công nghệ cho phép nhúng mã Java vào trang HTML, giúp tạo trang web động dễ dàng hơn
+  
+🟢Cả JSP và Servlet đều chạy trên Java EE (Jakarta EE) và thường được triển khai trên các máy chủ ứng dụng như Apache Tomcat, WildFly, GlassFish.
+
+🧠🧠Tổng quan về JSP
+    JSP là gì?
+    JSP là một công nghệ giúp tạo trang web động bằng cách nhúng mã Java trực tiếp vào HTML. JSP dễ sử dụng hơn Servlet trong việc tạo giao diện web
+
+- Cấu trúc của một trang JSP cơ bản
+    Một trang JSP có thể chứa các phần tử sau:
+    HTML: Định dạng giao diện web
+    Scriptlet (<% Java code %>) : Chèn mã Java vào JSP
+    Expression (<%= expression %>): In giá trị ra trang HTML
+
+ 
+
+- Cách hoạt động của JSP
+    Yêu Cầu Trang JSP: Khi người dùng truy cập một trang JSP thông qua trình duyệt, yêu cầu sẽ được gửi đến máy chủ.
+    Biên Dịch Mã Java: Máy chủ sẽ biên dịch mã Java trong trang JSP thành mã byte.
+    Sinh Ra Mã HTML: Sau khi biên dịch xong, mã Java sẽ sinh ra mã HTML dựa trên dữ liệu và logic trong mã.
+    Trả Về Trình Duyệt: Mã HTML sinh ra sẽ được gửi trở lại trình duyệt và hiển thị trên trang web.
+
+🎯 TÓM TẮT LUỒNG JSP – SERVLET
+
+[1] Browser → gửi yêu cầu (URL hoặc form)
+      ↓
+[2] Servlet → xử lý logic, gọi database
+      ↓
+[3] Servlet → forward dữ liệu đến JSP
+      ↓
+[4] JSP → hiển thị giao diện HTML (View)
+      ↓
+[5] Browser nhận HTML → hiển thị kết quả
+
+🔄 VÍ DỤ THỰC TẾ (User login)
+    Người dùng nhập username/password và bấm login
+
+    Form gửi dữ liệu tới LoginServlet
+
+    Servlet kiểm tra thông tin → nếu đúng → chuyển hướng sang welcome.jsp
+
+    Nếu sai → quay lại login.jsp và báo lỗi
+
+
+🧠🧠Tổng quan về Servlet
+Servlet là gì?
+    Servlet là một thành phần Java chạy trên máy chủ, được sử dụng để xử lý các yêu cầu HTTP từ trình duyệt web và trả về phản hồi phù hợp
+
+Cách hoạt động của Servlet
+    Nhận yêu cầu: Servlet container (ví dụ: Tomcat) nhận yêu cầu và xác định Servlet tương ứng để xử lý nó
+    Khởi tạo Servlet: Nếu Servlet chưa được tạo, container sẽ khởi tạo nó trước khi xử lý yêu cầu
+    Xử lý yêu cầu: Servlet xử lý yêu cầu bằng cách sử dụng các tham số truyền vào từ yêu cầu, tải dữ liệu từ cơ sở dữ liệu nếu cần, và thực hiện các thao tác xử lý khác
+    Tạo phản hồi: Sau khi xử lý, Servlet tạo ra một phản hồi, có thể là mã HTML, XML hoặc JSON
+    Gửi phản hồi: Phản hồi được gửi từ Servlet container đến máy chủ web, sau đó được truyền lại cho người dùng qua trình duyệt
+
+
+✅ I. JSP vs Servlet: GIỐNG NHAU – KHÁC NHAU
+
+🟢 1. Giống nhau
+Tiêu chí	                         JSP & Servlet
+Ngôn ngữ	                       Đều dùng Java
+Mục đích	                     Dùng để tạo ứng dụng web Java chạy trên Web Server (Tomcat)
+Cách hoạt động	                Đều là thành phần xử lý request – response trong Java EE (Jakarta EE)
+Phải chạy qua                   Đều chạy trên Tomcat, Jetty,...
+Servlet container	
+
+🔴 2. Khác nhau
+Tiêu chí	                      Servlet	                                   JSP
+Vị trí sử dụng      	Xử lý logic, điều hướng, truy vấn DB...      Hiển thị giao diện, render dữ liệu
+Mã viết	Java thuần          (Java code 100%)	                    HTML là chính, chèn Java vào
+Mã ví dụ	                doGet(), doPost()	                <% for(...) { %> ... <% } %>
+Dễ đọc	                Khó đọc nếu chứa HTML           	Dễ đọc, gần giống web HTML thông thường
+Sinh ra             	Bạn tự viết Java class      	JSP được biên dịch thành Servlet sau hậu trường
+Tái sử dụng	Dễ           test, tách lớp	                Khó tái sử dụng nếu viết logic trong JSP
+
+💡 JSP bản chất cũng là Servlet – khi bạn chạy .jsp, Tomcat biên dịch nó thành một Servlet sau hậu trường!
+
+🔹 JSP (JavaServer Pages)
+
+Luồng hoạt động:
+	1.	Client gửi request (thường là qua trình duyệt) tới một file .jsp trên web server (chạy trong web container như Tomcat).
+	2.	Web container chuyển yêu cầu đó tới JSP Engine.
+	3.	JSP Engine biên dịch file .jsp thành một Servlet tương ứng (chỉ làm 1 lần khi file JSP đó được gọi lần đầu hoặc khi có thay đổi).
+	4.	Servlet được biên dịch thành mã bytecode Java (file .class).
+	5.	Servlet thực thi:
+	•	Nhúng nội dung động vào trong HTML (ví dụ: lấy dữ liệu từ DB, xử lý logic, hiển thị thông tin).
+	•	Sinh ra mã HTML hoàn chỉnh.
+	6.	HTML này được trả về client để hiển thị.
+
+✅ JSP thích hợp để xây dựng giao diện (view), vì dễ trộn lẫn giữa HTML và Java.
+
+🔹 Servlet
+
+Luồng hoạt động:
+	1.	Client gửi request tới một URL được ánh xạ tới một Servlet.
+	2.	Web container gọi đến phương thức xử lý của Servlet như:
+	•	doGet(), doPost(), v.v.
+	3.	Servlet xử lý request, ví dụ:
+	•	Đọc tham số từ form (request.getParameter(...)).
+	•	Kết nối DB, xử lý logic nghiệp vụ.
+	4.	Servlet tạo response (thường là HTML) thông qua đối tượng HttpServletResponse.
+	5.	HTML (hoặc dữ liệu khác: JSON, XML, file…) được gửi về client.
+
+✅ Servlet phù hợp để xử lý logic nghiệp vụ và điều hướng luồng dữ liệu (controller trong mô hình MVC).
+
+🔁 So sánh nhanh
+
+Tiêu chí	        JSP	                       Servlet
+Vai trò chính	Giao diện (View)	        xử lý logic (Controller)
+Cách viết	        HTML + Java         	Java thuần
+Dễ bảo trì  Kém (khi nhúng nhiều Java vào)	Tốt hơn (tách riêng logic)
+Biên dịch	Tự động chuyển thành Servlet	Viết thủ công
+
+
+
+
+🔁 LUỒNG HOẠT ĐỘNG CỦA JSP VÀ SERVLET (Java Web cơ bản)
+🧭 Bước 1: Người dùng gửi yêu cầu (Request) từ trình duyệt
+    Ví dụ:
+
+    Người dùng gõ URL http://localhost:8080/app/students
+
+    Hoặc bấm nút submit form gửi dữ liệu
+
+🧭 Bước 2: Web Server (Tomcat) nhận yêu cầu và định tuyến đến Servlet
+    Tomcat tra bảng mapping (web.xml hoặc @WebServlet) để biết yêu cầu /students nên chuyển đến Servlet nào
+
+    Ví dụ: /students → StudentServlet
+
+🧭 Bước 3: Servlet xử lý logic
+    Servlet chạy phương thức doGet() hoặc doPost() tùy loại request
+
+    Trong đó:
+
+    Gọi Model hoặc DAO để lấy dữ liệu từ database
+
+    Xử lý nghiệp vụ, kiểm tra dữ liệu, v.v.
+Ví dụ:
+
+    List<Student> list = studentDAO.getAllStudents();
+    request.setAttribute("students", list);
+    request.getRequestDispatcher("student.jsp").forward(request, response);
+
+
+🧭 Bước 4: Servlet chuyển tiếp dữ liệu sang JSP (View)
+Dùng RequestDispatcher.forward() để chuyển dữ liệu sang file JSP
+
+Dữ liệu được đẩy vào request scope (request.setAttribute(...))
+
+🧭 Bước 5: JSP nhận dữ liệu và hiển thị giao diện
+JSP lấy dữ liệu từ request để hiển thị dưới dạng HTML
+
+Ví dụ:
+    <c:forEach items="${students}" var="s">
+    <tr>
+        <td>${s.id}</td>
+        <td>${s.name}</td>
+    </tr>
+    </c:forEach>
+
+
+🧭 Bước 6: Trình duyệt nhận trang HTML từ JSP và hiển thị
+    Kết quả là một trang HTML tĩnh đã được server "render sẵn"
+
+    Người dùng thấy danh sách sinh viên trên trình duyệt
+
+
+🎯 TÓM TẮT LUỒNG JSP – SERVLET
+
+[1] Browser → gửi yêu cầu (URL hoặc form)
+      ↓
+[2] Servlet → xử lý logic, gọi database
+      ↓
+[3] Servlet → forward dữ liệu đến JSP
+      ↓
+[4] JSP → hiển thị giao diện HTML (View)
+      ↓
+[5] Browser nhận HTML → hiển thị kết quả
