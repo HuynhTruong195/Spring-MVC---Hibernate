@@ -280,3 +280,578 @@ Ví dụ:
 [4] JSP → hiển thị giao diện HTML (View)
       ↓
 [5] Browser nhận HTML → hiển thị kết quả
+
+
+
+✅✅✅✅✅✅✅✅✅✅✅✅✅✅✅✅✅✅✅✅✅✅✅✅✅✅✅✅✅✅✅✅✅✅
+
+HTTP REQUEST VÀ HTTP RESPONCE
+
+✅ HTTP Request là gì?
+    👉 Là yêu cầu mà trình duyệt (client) gửi đến server để lấy thông tin hoặc gửi dữ liệu.
+
+📌 Ví dụ:
+
+    Khi bạn gõ google.com và nhấn Enter → trình duyệt gửi một HTTP Request đến server Google.
+
+
+✅ HTTP Response là gì?
+    👉 Là phản hồi mà server trả lại sau khi xử lý yêu cầu từ client.
+
+📌 Ví dụ:
+
+    Sau khi nhận yêu cầu, server Google gửi lại trang HTML kết quả → đó là HTTP Response.
+
+ 🔁 Tóm tắt quy trình:   
+    Client (trình duyệt) --> HTTP Request --> Server
+    
+    Server xử lý --> HTTP Response --> Client (hiển thị)
+
+👉 Hiểu đơn giản:
+
+    HTTP Request là yêu cầu do client (trình duyệt) gửi lên server.
+
+    HTTP Response là phản hồi từ server gửi lại client sau khi đã xử lý yêu cầu.
+
+    📌 Request = "Tôi muốn xem gì đó"
+    📌 Response = "Đây là nội dung bạn cần"
+
+    
+✅✅✅✅✅✅✅✅✅✅✅✅✅✅✅✅✅
+✅✅✅✅✅✅✅✅✅✅✅✅✅✅✅✅✅
+
+✅ JSTL (JavaServer Pages Standard Tag Library) là thư viện thẻ (tag) dùng trong JSP để viết code ngắn gọn, thay cho Java thuần.
+
+🔹 Hiểu đơn giản:
+    👉 JSTL giúp thay thế mã Java bằng các thẻ HTML-like, giúp code dễ đọc hơn.
+
+🔧 Ví dụ so sánh:
+❌ Không dùng JSTL:
+
+    <%
+   for(String name : names){
+       out.println("<li>" + name + "</li>");
+   }
+    %>
+
+✅ Dùng JSTL:
+
+   <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
+    <c:forEach var="name" items="${names}">
+        <li>${name}</li>
+    </c:forEach>
+
+📦 JSTL gồm nhiều thẻ như:
+    Nhóm thẻ	            Mục đích
+    core	        Điều kiện, vòng lặp, biến...
+    fmt	        Định dạng số, ngày, nội dung đa ngôn ngữ
+    sql	        Truy vấn CSDL (dùng cho demo, không nên dùng thực tế)
+    xml	        Xử lý dữ liệu XML
+
+
+
+✅ thẻ <c:set>
+Dùng để tạo biến trong JSP mà không cần code Java
+
+    <c:set var="name" value="Truong"/>
+    <p> xin chao ${name}</p>
+
+✅ thẻ <c:out>
+ Dùng để in dữ liệu
+    Tương đương với <%= > trong JSP
+
+    <c:out value="Huyfh"/>
+    <c:out value="truong"/>
+    <c:out value="234"/>
+
+✅ thẻ <c:if>
+Tương đương với if trong Java
+
+    <c:set var="age" value="19"/>
+    <c:if test="${age > 20}">
+        <p>Ban da du tuoi</p>
+    </c:if>
+    <c:if test="${age > 18}">
+        <h2>Bạn chưa du tuoi</h2>
+    </c:if>
+
+
+
+✅ thẻ <c:choose>, <c:when>, <c:otherwise>
+Tương đương với if else if trong java
+
+
+    <c:set var="score" value="3"/>
+
+    <c:choose>
+        <c:when test="${score > 8}">
+            <p>Gioi</p>
+        </c:when>
+        <c:when test="${score > 7}">
+            <p>Kha</p>
+        </c:when>
+        <c:when test="${score > 5}">
+            <p>TB</p>
+        </c:when>
+        <c:otherwise>
+            <p>Yeu</p>
+        </c:otherwise>
+    </c:choose>
+
+ ✅  thẻ <c:forEach>
+    Tương đương for trong Java, dùng để duyệt mảng hoặc danh sách:
+
+    <c:forEach begin="1" end="5">
+        <h3>Item ${i}</h3>
+    </c:forEach>
+
+
+  ✅Thẻ < c:catch>
+    Thẻ <c:catch> bắt bất kỳ ngoại lệ nào được ném trong phạm vi bao bọc của nó. Nếu ngoại lệ được ném, giá trị của nó được lưu trữ trong thuộc tính var của thẻ này.
+
+Cách sử dụng thông thường có thể như sau:
+    <c:catch var ="exceptionThrown">
+        <% int x = Integer.valueOf("a");%>
+    </c:catch>
+
+Và để kiểm tra xem ngoại lệ có được đưa ra hay không,
+ chúng ta sử dụng thẻ <c:if> như hiển thị bên dưới:
+
+   <c:if test = "${exceptionThrown != null}">
+    <p>The exception is : ${exceptionThrown} <br />
+      There is an exception: ${exceptionThrown.message}
+    </p>
+    </c:if>
+
+✅ Thẻ < c:import>
+Thẻ <c:import> xử lý việc truy xuất và hiển thị nội dung từ URL tuyệt đối hoặc tương đối.
+    <c:import var = "data" url = "http://www.example.com"/>
+
+
+
+✅ Thẻ <c:url> và <c:param>
+Thẻ <c:url> hữu ích để định dạng URL với mã hóa yêu cầu phù hợp. URL đã định dạng được lưu trữ trong thuộc tính var .
+Thẻ <c:url> cũng có thẻ phụ <c:param> được sử dụng để chỉ định tham số URL.
+   <c:url value = "/core_tags" var = "myURL">
+    <c:param name = "parameter_1" value = "1234"/>
+    <c:param name = "parameter_2" value = "abcd"/>
+    </c:url>
+
+
+✅ Thẻ <fmt:formatDate>
+Thẻ <fmt:formatDate> hữu ích trong việc định dạng ngày tháng hoặc thời gian.
+cũng có thuộc tính pattern nơi chúng ta có thể chỉ định mẫu định dạng mong muốn
+    <c:set var="now" value="<%= new java.util.Date()%>"/>
+    <fmt:formatDate type="time" value="${now}"/>
+
+
+
+✅✅✅✅ BÀI WEBAPP
+   protected void listStudents(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+        request.setAttribute("students", studentDao.findAll());
+        RequestDispatcher dispatcher = request.getRequestDispatcher("index.jsp");
+        dispatcher.forward(request, response);
+    }
+
+
+✅ Ví dụ “nói cho dễ hiểu”:
+
+Mình gọi DAO như người đi lấy hàng trong kho.
+
+setAttribute giống như đặt hàng đó vào túi (request).
+
+dispatcher là địa chỉ nơi giao hàng (index.jsp).
+
+forward là đưa cả túi hàng (request/response) sang đó để mở ra và trưng bày (hiển thị danh sách).
+
+
+NOTE lỗi 404
+ if (request.getAttribute("students") == null) {
+        response.sendRedirect("/students?action=list");
+    }
+⚠️ Đây là logic sai phổ biến — vì sendRedirect() là hàm HTTP response, nhưng bạn đang forward từ Servlet sang JSP, nên response đã bắt đầu xử lý rồi. Việc gọi redirect lúc đó gây lỗi.
+
+
+
+✅✅✅✅✅✅✅✅✅✅✅✅✅✅✅✅✅✅✅✅✅✅✅✅✅✅✅✅✅✅✅✅✅✅✅✅✅✅
+
+✅✅✅✅✅✅✅✅✅✅✅✅✅✅✅✅✅✅✅✅✅✅✅✅✅✅✅✅✅✅✅✅✅✅✅✅✅✅
+
+GIỚI THIỆU VỀ SPRING FRAMWORK
+
+✅ Tóm tắt 80% – Ý chính:
+Spring là gì?
+➤ Framework mã nguồn mở cho Java, giúp phát triển ứng dụng nhanh, dễ bảo trì.
+
+Mục tiêu chính:
+➤ Giảm phụ thuộc giữa các thành phần (D.I – Dependency Injection)
+➤ Tăng tính mở rộng và dễ kiểm thử
+
+Dùng để làm gì?
+➤ Viết app web, app backend, REST API, microservices, quản lý transaction, bảo mật, v.v.
+
+Tại sao nên dùng Spring?
+➤ Cấu trúc rõ ràng
+➤ Hỗ trợ tốt cho module hóa
+➤ Dễ tích hợp với công nghệ khác: JPA, Hibernate, MySQL, MongoDB...
+
+🧩 20% – Chi tiết mở rộng (ngắn gọn):
+Spring Core: Hạt nhân xử lý DI (Inject phụ thuộc)
+
+Spring MVC: Tạo ứng dụng web theo mô hình MVC
+
+Spring Boot: Giúp tạo ứng dụng Spring nhanh, cấu hình tối giản
+
+Spring Data: Hỗ trợ truy xuất dữ liệu từ database dễ dàng hơn, tích hợp với Hibernate, JPA, JDBC
+
+Spring Security: Cung cấp bảo mật (xác thực, phân quyền)
+
+Spring AOP: Lập trình hướng khía cạnh (Aspect-Oriented Programming)
+
+
+🧭 Kiến trúc tổng quan gồm 3 thành phần chính:
+Thành phần	            Vai trò
+Model	        Chứa dữ liệu & logic nghiệp vụ
+View	        Hiển thị dữ liệu cho người dùng (JSP, Thymeleaf,...)
+Controller  	Xử lý yêu cầu từ client, gọi model, trả kết quả về view
+
+🔁 Luồng xử lý yêu cầu (Request Flow):
+
+    Client → DispatcherServlet → Controller → Service → DAO → DB
+                         ↓
+                     View Resolver → View (HTML)
+
+DispatcherServlet: Trung tâm tiếp nhận mọi request (giống "trạm điều phối")
+
+Controller: Nhận request, xử lý và trả ModelAndView
+
+View Resolver: Chọn view phù hợp để hiển thị
+
+View: Giao diện hiển thị (JSP, Thymeleaf,...)
+
+🔁Annotation thường dùng:
+
+    @Controller, @RequestMapping, @GetMapping, @PostMapping
+
+    @ModelAttribute, @PathVariable, @RequestParam
+
+🎯 Ví dụ mini:
+    @Controller
+    public class HelloController {
+        @GetMapping("/hello")
+        public String sayHello(Model model) {
+            model.addAttribute("message", "Xin chào Spring MVC!");
+            return "hello";   // Trả về view hello.jsp hoặc hello.html
+        }
+    }
+
+
+
+
+✅ Các thành phần chính:
+⭐ 1. DispatcherServlet
+    Trung tâm của Spring MVC.
+
+    Là Front Controller pattern.
+
+    Nhận tất cả request web.
+
+    Phân phối request đến Controller thích hợp.
+
+    Ví dụ: /customer/list → Controller CustomerController
+
+⭐ 2. HandlerMapping
+    Tìm ra Controller nào xử lý URL đó.
+
+    Mapping được khai báo bằng Annotation (@RequestMapping).
+
+⭐ 3. Controller
+    Thành phần xử lý logic.
+
+    Nhận request, gọi service/DAO.
+
+    Trả về Model (dữ liệu) và View (tên view).
+
+    Ví dụ:
+            @Controller
+            public class CustomerController {
+                @GetMapping("/customer/list")
+                public String listCustomers(Model model) {
+                    List<Customer> customers = customerService.findAll();
+                    model.addAttribute("customers", customers);
+                    return "customerList";  // Tên view
+                }
+            }
+
+⭐ 4. Model
+    Chứa dữ liệu (JavaBean, DTO) mà view cần.
+
+    Controller gán dữ liệu vào Model.
+
+⭐ 5. ViewResolver
+    Chọn file View (JSP, Thymeleaf, HTML...) để render.
+
+    Ví dụ: "customerList" → /WEB-INF/views/customerList.jsp
+
+⭐ 6. View
+    Giao diện hiển thị cho người dùng cuối.
+
+    JSP/Thymeleaf/FreeMarker.
+
+⭐ 7. Service và DAO (ở tầng dưới)
+    Không bắt buộc trong MVC "thuần", nhưng Spring khuyến khích.
+
+    Tách Business Logic (Service) và Data Access (DAO).           
+
+            Controller
+                │
+                Service
+                │
+                DAO
+
+
+✅ 3️⃣ Quy trình Spring MVC hoạt động
+✅ Ví dụ: User truy cập /customer/list
+
+1️⃣ Browser gửi HTTP request: GET /customer/list
+2️⃣ DispatcherServlet nhận request.
+3️⃣ HandlerMapping tìm Controller có @RequestMapping("/customer/list").
+4️⃣ Gọi phương thức Controller xử lý.
+5️⃣ Controller trả về tên View + Model.
+6️⃣ ViewResolver tìm file JSP hoặc Thymeleaf phù hợp.
+7️⃣ Render HTML trả về Browser.
+
+
+✅ 4️⃣ Ví dụ rất đơn giản
+        @Controller
+        public class HelloController {
+
+            @GetMapping("/hello")
+            public String sayHello(Model model) {
+                model.addAttribute("message", "Hello, Spring MVC!");
+                return "hello";
+            }
+        }
+
+#html 
+    <html>
+    <body>
+        <h1>${message}</h1>
+    </body>
+    </html>
+
+
+
+
+✅ 1️⃣ Annotation cho Controller
+Annotation	                Ý nghĩa
+@Controller	        Đánh dấu class là Spring MVC Controller.
+@RestController	    Giống @Controller, nhưng trả JSON/XML thay vì view. = @Controller + @ResponseBody
+
+    @Controller
+    public class HomeController { ... }
+
+    @RestController
+    public class ApiController { ... }
+
+
+✅ 2️⃣ Mapping HTTP Requests
+Annotation	            Ý nghĩa
+@RequestMapping	    Ánh xạ URL bất kỳ (GET/POST/PUT/DELETE). Tổng quát.
+@GetMapping	Chỉ     ánh xạ GET request.
+@PostMapping	    Chỉ ánh xạ POST request.
+@PutMapping	        PUT request.
+@DeleteMapping	    DELETE request.
+@PatchMapping	    PATCH request.
+
+    ✅ Ví dụ:
+    @RequestMapping("/products")
+    public String list() { ... }
+
+    @GetMapping("/products")
+    public String listGet() { ... }
+
+    @PostMapping("/products")
+    public String create() { ... }
+
+
+✅ 3️⃣ Đọc tham số từ request
+Annotation	        Ý nghĩa
+@RequestParam	    Lấy tham số từ query hoặc form-data.
+@PathVariable	    Lấy biến trong URL path.
+@RequestBody	    Đọc body (JSON/XML) → object.
+@ModelAttribute	    Bind form fields → object.
+        ✅ Ví dụ:
+        @GetMapping("/users")
+        public String find(@RequestParam String name) { ... }
+
+        @GetMapping("/users/{id}")
+        public String detail(@PathVariable Long id) { ... }
+
+        @PostMapping("/users")
+        public String create(@ModelAttribute User user) { ... }
+
+        @PostMapping("/api/users")
+        public User createApi(@RequestBody User user) { ... }
+
+
+
+✅ 4️⃣ Trả dữ liệu response
+Annotation	        Ý nghĩa
+@ResponseBody	    Trả dữ liệu trực tiếp (JSON/XML).
+@ResponseStatus	    Đặt HTTP status code.
+
+
+    ✅ Ví dụ:
+
+        @ResponseBody
+        @GetMapping("/api/hello")
+        public String hello() {
+            return "Hello";
+        }
+
+        @ResponseStatus(HttpStatus.CREATED)
+        @PostMapping("/api/products")
+        public void createProduct() { ... }
+
+
+✅ 5️⃣ Khai báo bean (service, repo)
+Annotation  	Ý nghĩa
+@Component	    Bean Spring tổng quát.
+@Service	    Bean tầng Service.
+@Repository 	Bean tầng DAO (tích hợp exception translation).
+@Configuration	    Class config.
+@Bean	    Định nghĩa 1 bean trong config.
+
+        ✅ Ví dụ:
+
+        @Service
+        public class UserService { ... }
+
+        @Repository
+        public class UserRepository { ... }
+
+        @Configuration
+        public class AppConfig {
+            @Bean
+            public MyBean myBean() { ... }
+        }
+
+
+✅ 6️⃣ Dependency Injection
+Annotation	    Ý nghĩa
+@Autowired	    Tự động inject bean.
+@Qualifier	    Chỉ định tên bean cụ thể.
+@Value	    Inject giá trị từ properties.
+
+        ✅ Ví dụ:
+
+    @Controller
+    public class HomeController { ... }
+
+    @RestController
+    public class ApiController { ... }
+
+
+✅ 7️⃣ Validation
+Annotation	        Ý nghĩa
+@Valid	        Kích hoạt validation JSR-303/JSR-380.
+@Validated	    Validation nâng cao (Spring).
+
+        ✅ Ví dụ:
+
+        @PostMapping("/users")
+        public String create(@Valid @ModelAttribute User user, BindingResult result) { ... }
+
+
+✅ 8️⃣ Session / Cookie
+Annotation	            Ý nghĩa
+@SessionAttributes	Giữ attribute trong session.
+@SessionAttribute	Đọc 1 attribute từ session.
+@CookieValue	    Đọc giá trị cookie.
+
+
+✅ Tóm gọn siêu ngắn (giấy note học bài)
+✨ Controller:
+
+@Controller, @RestController
+
+✨ Mapping:
+
+@RequestMapping, @GetMapping, @PostMapping, @PutMapping, @DeleteMapping
+
+✨ Param/Path/Body:
+
+@RequestParam, @PathVariable, @RequestBody, @ModelAttribute
+
+✨ Response:
+
+@ResponseBody, @ResponseStatus
+
+✨ Bean:
+
+@Component, @Service, @Repository, @Configuration, @Bean
+
+✨ DI:
+
+@Autowired, @Qualifier, @Value
+
+✨ Validation:
+
+@Valid, @Validated
+
+✨ Session/Cookie:
+
+@SessionAttributes, @SessionAttribute, @CookieValue
+
+
+
+
+✅ 🎯 Controller
+
+@Controller – Đánh dấu lớp là Spring MVC Controller (trả về View).
+
+@RestController – Controller REST API (trả về JSON/XML).
+
+✅ 🎯 Mapping
+
+@RequestMapping – Ánh xạ URL (tổng quát cho GET/POST/PUT/DELETE).
+
+@GetMapping – Ánh xạ HTTP GET.
+
+@PostMapping – Ánh xạ HTTP POST.
+
+✅ 🎯 Đọc dữ liệu từ request
+
+@RequestParam – Lấy tham số query/form.
+
+@PathVariable – Lấy biến từ path URL.
+
+@ModelAttribute – Bind form fields thành object.
+
+@RequestBody – Bind JSON/XML body → object.
+
+✅ 🎯 Dependency Injection
+
+@Autowired – Tự động inject bean.
+
+✅ 🎯 Phân tầng
+
+@Service – Đánh dấu class tầng Service.
+
+@Repository – Đánh dấu class tầng DAO.
+
+✅ 🎯 Validation
+
+@Valid – Kích hoạt validation cho object.
+
+
+✅ 📌 Siêu ngắn để học thuộc:
+
+@Controller / @RestController → Định nghĩa Controller
+@GetMapping / @PostMapping / @RequestMapping → Ánh xạ URL
+@RequestParam / @PathVariable / @ModelAttribute / @RequestBody → Nhận dữ liệu
+@Autowired → Inject bean
+@Service / @Repository → Phân tầng
+@Valid → Validate input
+
