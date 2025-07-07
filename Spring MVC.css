@@ -855,3 +855,25 @@ Annotation	            Ý nghĩa
 @Service / @Repository → Phân tầng
 @Valid → Validate input
 
+🎯🎯🎯🎯🎯🎯🎯🎯🎯🎯🎯🎯🎯🎯🎯🎯🎯🎯🎯🎯🎯🎯🎯🎯🎯
+
+NGUYÊN LÝ THIẾT KẾ IoC 
+🔁 IoC là gì?
+Inversion of Control (Đảo ngược điều khiển) là nguyên lý thiết kế mà việc tạo và quản lý đối tượng không do chính nó đảm nhiệm, mà được giao cho một bên khác (container).
+
+Trong Spring, bên "điều khiển" đó chính là Spring Container.
+
+ Ý nghĩa cốt lõi của IoC:
+✅ Object không tự tạo dependencies của nó.
+✅ Mọi dependency được “bơm vào” từ bên ngoài.
+
+💡 Ví dụ đơn giản (so sánh):
+❌ Không dùng IoC (ràng buộc cứng):
+
+    UserService userService = new UserService(new UserRepository());
+
+    
+✅ Dùng IoC (Spring lo inject):
+
+    @Autowired
+    UserService userService; // Spring tự inject UserRepository
