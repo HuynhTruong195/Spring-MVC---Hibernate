@@ -622,6 +622,23 @@ View: Giao diện hiển thị (JSP, Thymeleaf,...)
 7️⃣ Render HTML trả về Browser.
 
 
+    ✅ Flow chuẩn của Spring MVC
+    Client gửi request đến URL (ví dụ: /users/list)
+
+    DispatcherServlet tiếp nhận request đầu tiên (như một trạm điều phối trung tâm)
+
+    DispatcherServlet sử dụng HandlerMapping để tìm ra Controller + method phù hợp với URL và HTTP method (GET/POST)
+
+    Sau khi tìm ra handler (method trong controller), DispatcherServlet dùng HandlerAdapter để gọi thực thi method đó
+
+    Controller xử lý logic: gọi Service/Repository nếu cần, tạo dữ liệu và trả về ModelAndView (gồm: tên view + model data)
+
+    DispatcherServlet gửi tên view đó đến ViewResolver để tìm đúng file view (JSP, Thymeleaf...)
+
+    View + Model được kết hợp → sinh ra trang HTML hoàn chỉnh
+
+    DispatcherServlet gửi kết quả HTML về cho Client
+
 ✅ 4️⃣ Ví dụ rất đơn giản
         @Controller
         public class HelloController {
@@ -643,16 +660,36 @@ View: Giao diện hiển thị (JSP, Thymeleaf,...)
 
 
 
+
 ✅ 1️⃣ Annotation cho Controller
+
+@Controller
+Được sử dụng để đánh dấu một class là một Spring Controller
+Chịu trách nhiệm xử lý request và trả về view (giao diện người dùng)
+Kết hợp với @RequestMapping để ánh xạ các request đến phương thức phù hợp
+Ví dụ:
+
 Annotation	                Ý nghĩa
 @Controller	        Đánh dấu class là Spring MVC Controller.
 @RestController	    Giống @Controller, nhưng trả JSON/XML thay vì view. = @Controller + @ResponseBody
 
-    @Controller
-    public class HomeController { ... }
+   @Controller
+    public class homeController {
+        @RequestMapping("/home")
+        public String home() {
+            return "home";
+        }
+    }
 
-    @RestController
-    public class ApiController { ... }
+   @RestController
+    public class homeController {
+        @RequestMapping("/home")
+        public String home() {
+            return "Hello, this is REST API"; // trả về dữ liệu
+        }
+    }
+
+
 
 
 ✅ 2️⃣ Mapping HTTP Requests
@@ -665,22 +702,53 @@ Annotation	            Ý nghĩa
 @PatchMapping	    PATCH request.
 
     ✅ Ví dụ:
-    @RequestMapping("/products")
-    public String list() { ... }
+ @RestController
+    @RequestMapping("/user")   //URL gốc: /user
+    public class homeController {
+        @RequestMapping(value = "/list", method = RequestMethod.GET)
+        public String home() {
+            return "Hello, this is REST API"; // trả về dữ liệu
+        }
+    }
 
-    @GetMapping("/products")
-    public String listGet() { ... }
+ @GetMapping, @PostMapping, @PutMapping, @DeleteMapping
+Là các annotation đặc biệt của @RequestMapping nhưng chuyên biệt hơn cho từng loại request HTTP
+Giúp code ngắn gọn hơn
 
-    @PostMapping("/products")
-    public String create() { ... }
+    
+@RestController
+@RequestMapping("/products") //URL gốc: /user
+public class HomeControler {
+    @GetMapping
+    public String getAllProduct() {
+        return "All products";
+    }
+    
+    @PostMapping 
+    public String addProduct(){
+        return "Added product";
+    }
+    
+    @PutMapping("/{id}")
+    public String updateProduct (@PathVariable int id){
+        return "Updated product with id " + id;
+    }
+    
+    @DeleteMapping("/{id}")
+    public String deleteProduct(@PathVariable int id){
+        return "Deleted product with id " + id;
+    }
+}
+
+
 
 
 ✅ 3️⃣ Đọc tham số từ request
 Annotation	        Ý nghĩa
 @RequestParam	    Lấy tham số từ query hoặc form-data.
-@PathVariable	    Lấy biến trong URL path.
-@RequestBody	    Đọc body (JSON/XML) → object.
-@ModelAttribute	    Bind form fields → object.
+@PathVariable	    lấy giá trị từ đường dẫn URL
+@RequestBody	    đọc body JSON/XML gửi lên
+@ModelAttribute	    nhận dữ liệu từ form HTML sang object
         ✅ Ví dụ:
         @GetMapping("/users")
         public String find(@RequestParam String name) { ... }
@@ -693,6 +761,31 @@ Annotation	        Ý nghĩa
 
         @PostMapping("/api/users")
         public User createApi(@RequestBody User user) { ... }
+
+@GetMapping("/search")  -- khi có request GET đến /search
+public String search(@RequestParam String keyword) { --@RequestParam String keyword: lấy giá trị của keyword trong URL (?keyword=spring)
+    // URL: /search?keyword=spring
+    return "Kết quả tìm: " + keyword;  -- trả về chuỗi kết quả chứa từ khóa người dùng đã nhập
+}
+
+@GetMapping("/user/{id}") -- khai báo đường dẫn có biến id
+public String getUser(@PathVariable int id) { --Spring sẽ lấy giá trị trong {id} rồi gán vào biến id
+    // URL: /user/5
+    return "User ID: " + id;  -- trả lại chuỗi chứa ID đã nhận
+}
+
+@PostMapping("/user")  -- nhận request POST đến /user
+public String createUser(@RequestBody User user) {  --đọc nội dung body (JSON) → tự chuyển thành object User
+    // Body JSON: { "name": "Nam", "age": 25 }
+    return "Đã tạo user: " + user.getName();  -- trả về tên user đã tạo (user.getName() lấy giá trị từ object)
+}
+
+
+@PostMapping("/register") -nhận request POST đến /register
+public String register(@ModelAttribute User user) { -Spring tự ánh xạ từng field từ form HTML (name, age,...) vào object User
+    // Form gửi lên: name=Nam, age=25
+    return "Đăng ký user: " + user.getName(); -- trả về chuỗi kết quả chứa tên user đã nhập
+}✅ Thường dùng cho form HTML có method="POST" và các input field trùng tên thuộc tính của object.
 
 
 
@@ -855,6 +948,7 @@ Annotation	            Ý nghĩa
 @Service / @Repository → Phân tầng
 @Valid → Validate input
 
+
 🎯🎯🎯🎯🎯🎯🎯🎯🎯🎯🎯🎯🎯🎯🎯🎯🎯🎯🎯🎯🎯🎯🎯🎯🎯
 
 NGUYÊN LÝ THIẾT KẾ IoC 
@@ -877,3 +971,145 @@ Trong Spring, bên "điều khiển" đó chính là Spring Container.
 
     @Autowired
     UserService userService; // Spring tự inject UserRepository
+
+
+✅✅✅✅✅✅✅✅✅✅✅✅✅✅✅✅✅✅
+ @Component, @Controller, @Service, @Repository✅
+ ✅✅✅✅✅✅✅✅✅✅✅✅✅✅✅✅✅✅✅
+
+ 🎯@Component
+    Là annotation chung nhất để đánh dấu một class là bean
+    Các class được đánh dấu @Component sẽ được Spring container quản lý
+    Đây là cha của các annotation khác như @Controller, @Service, và @Repository
+
+    @Component
+    public class EmailUtils {
+        public void sendEmail() {
+            System.out.println("Sending email...");
+        }
+    }
+📌 Dùng cho các class không thuộc tầng Controller, Service, DAO, ví dụ: utils, helpers.
+
+
+🎯@Controller
+    Dùng trong lớp Controller trong mô hình MVC
+    Thường dùng để xử lý các HTTP request và trả về view hoặc dữ liệu
+    Có thể kết hợp với @RequestMapping, @GetMapping, @PostMapping,...
+
+    @Controller
+    public class UserController {
+
+        @GetMapping("/users")
+        public String getUsers(Model model) {
+            // gọi service, thêm dữ liệu vào model
+            return "user-list"; // trả về view
+        }
+    }
+📌 Chỉ nên dùng trong tầng giao tiếp với trình duyệt (HTTP request/response).
+
+
+🎯@Service
+    Dùng cho các class chứa logic xử lý nghiệp vụ
+    Giúp tổ chức code rõ ràng theo tầng service
+    Là một dạng chuyên biệt của @Component
+
+    @Service
+    public class UserService {
+
+        public List<User> findAllUsers() {
+            // xử lý logic: lọc, tính toán,...
+            return userRepository.findAll();
+        }
+    }
+📌 Dùng để viết logic xử lý (nhiều tầng, nhiều bước), gọi đến repository nếu cần.
+
+
+
+
+🎯 @Repository
+    Dùng để đánh dấu các class xử lý giao tiếp với database
+    Cung cấp cơ chế exception translation của Spring (chuyển đổi SQLException thành DataAccessException)
+    Là một dạng chuyên biệt của @Component
+
+    @Repository
+    public class UserRepository {
+
+        public List<User> findAll() {
+            // gọi SQL hoặc JPA để lấy dữ liệu từ DB
+            return jdbcTemplate.query("SELECT * FROM users", new UserRowMapper());
+        }
+    }
+📌 Dùng cho tầng DAO, Spring sẽ tự động bắt lỗi SQL (DataAccessException) nếu có.
+
+
+
+ @RequestMapping, @GetMapping, @PostMapping annotation
+
+@Controller
+public class homeController {
+    @RequestMapping(value = "/home", method = RequestMethod.GET)
+    public ModelAndView home() {
+        ModelAndView modelAndView = new ModelAndView("home");
+        modelAndView.addObject("msg", "hellofrom java");
+        return modelAndView;
+    }
+    @RequestMapping(value = "/product-add", method = RequestMethod.GET)
+    public ModelAndView addProduct() {
+        ModelAndView modelAndView = new ModelAndView("products");
+        return modelAndView;
+    }
+
+    @RequestMapping(value = "/product-save", method = RequestMethod.POST)
+    public String  saveProduct() {
+        System.out.println("save product");
+        return "redirect:/home";
+    }
+}
+
+
+
+
+🎯🎯🎯🎯🎯🎯🎯🎯🎯🎯🎯🎯🎯🎯🎯🎯🎯🎯🎯🎯
+
+Model, ModelMap, ModelAndView
+
+
+🔹Model (Interface)
+    Mục đích:
+    Dùng để truyền dữ liệu từ Controller sang View
+    Được Spring tự động inject vào method trong controller
+    Dễ sử dụng và được khuyến khích dùng trong Spring hiện đại
+
+        @GetMapping("/hello")
+        public String hello(Model model) {
+            model.addAttribute("name", "Nam");  -thêm dữ liệu gửi qua view
+            return "hello"; // Trả về view: hello.jsp hoặc hello.html
+        }
+
+
+🔹ModelMap (Class)
+    Mục đích:
+    Tương tự Model, nhưng là một class cụ thể, kế thừa từ LinkedHashMap
+    Cho phép thêm dữ liệu dưới dạng key - value
+    Có thể dùng thay cho Model
+
+        @GetMapping("/hi")
+        public String hi(ModelMap modelMap) {
+            modelMap.addAttribute("age", 25);
+            return "hi"; // View: hi.jsp
+        }
+
+
+🔹ModelAndView (Class)
+    Mục đích:
+    Là class kết hợp giữa model và view
+    Cho phép bạn thiết lập view name + dữ liệu model cùng lúc
+    Thường dùng trong những tình huống cần rõ ràng, tách biệt
+    
+        @GetMapping("/info")
+        public ModelAndView info() {
+            ModelAndView mv = new ModelAndView("info"); -- bắt buộc phải khởi tạo mới dùng đc. k giống 2 cái trên
+            mv.addObject("email", "nam@example.com");
+            return mv;
+        }
+
